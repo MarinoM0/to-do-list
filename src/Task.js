@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export default class Task {
 
     constructor(title,description,dueDate,priority) {
@@ -20,8 +22,8 @@ export default class Task {
         this.isComplete = !this.isComplete;
     }
 
-    formattedDate(date) {
-        return date.format()
+    getFormattedDate() {
+        return format(new Date(this.dueDate), "do MMMM, yyyy");
     }
 
     getId() {

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+</head>
+<body>
+    <header>
+        <h1>Todo app</h1>
+        <button id="add-project-btn">+ Add project</button>
+        <button id="add-task-btn">+ Add task</button>
+    </header>
+
+    <main>
+        <aside>
+            <h2>Projects</h2>
+            <ul id="projects-list"></ul>
+        </aside>
+
+        <section>
+            <h2>Tasks</h2>
+            <div id="tasks-list"></div>
+        </section>
+    </main>
+
+    <div id="project-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>New project</h3>
+            <form id="project-form">
+                <label for="project-name">Project name:</label>
+                <input type="text" id="project-name" required>
+                <button type="submit">Create project</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="task-modal" type="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>New Task</h3>
+            <form id="task-form">
+                <label for="task-title">Title:</label>
+                <input type="text" id="task-title" required>
+
+                <label for="task-desc">Description:</label>
+                <textarea id="task-desc"></textarea>
+
+                <label for="task-date">Due date:</label>
+                <input type="date" id="task-date" required>
+
+                <label for="task-priority">Priority:</label>
+                <select id="task-priority" required>
+                    <option value="Low"></option>
+                    <option value="Medium"></option>
+                    <option value="High"></option>
+                </select>
+
+                <button type="submit">Create task</button>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+</html>
