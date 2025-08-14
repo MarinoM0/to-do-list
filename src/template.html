@@ -8,14 +8,14 @@
 <body>
     <header>
         <h1>Todo app</h1>
-        <button id="add-project-btn">+ Add project</button>
-        <button id="add-task-btn">+ Add task</button>
+        <button id="add-project-btn">Add project</button>
+        <button id="add-task-btn">Add task</button>
     </header>
 
     <main>
         <aside>
             <h2>Projects</h2>
-            <ul id="projects-list"></ul>
+            <div id="projects-list"></div>
         </aside>
 
         <section>
@@ -25,17 +25,21 @@
     </main>
 
     <div id="project-modal" class="modal" style="display:none;">
+        <div class="modal-overlay">
         <div class="modal-content">
             <h3>New project</h3>
             <form id="project-form">
                 <label for="project-name">Project name:</label>
                 <input type="text" id="project-name" required>
                 <button type="submit">Create project</button>
+                <button type="button" id="cancel-project-btn">Cancel</button>
             </form>
+        </div>
         </div>
     </div>
 
-    <div id="task-modal" type="modal" style="display:none;">
+    <div id="task-modal" class= "modal" style="display:none;">
+        <div class="modal-overlay">
         <div class="modal-content">
             <h3>New Task</h3>
             <form id="task-form">
@@ -50,13 +54,15 @@
 
                 <label for="task-priority">Priority:</label>
                 <select id="task-priority" required>
-                    <option value="Low"></option>
-                    <option value="Medium"></option>
-                    <option value="High"></option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
                 </select>
 
                 <button type="submit">Create task</button>
+                <button type="button" id="cancel-task-btn">Cancel</button>
             </form>
+        </div>
         </div>
     </div>
 

@@ -22,7 +22,7 @@ export default class Manager {
   }
 
   // Task management
-  createTask(title, description, dueDate, priority) {
+  createTask(title, description ="", dueDate, priority) {
     return new Task(title, description, dueDate, priority);
   }
 

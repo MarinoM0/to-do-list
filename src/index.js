@@ -1,3 +1,10 @@
 import "./styles.css";
 import Manager from "./Manager.js";
+import domController from "./domController.js";
+import modalController from "./modalController.js";
+
+const manager = new Manager();
+const dom = domController(manager);
+
+modalController(manager, dom);
 

@@ -1,21 +1,21 @@
 export default function domController(manager) {
-    const projectList = document.querySelector("#project-list");
-    const taskList = document.querySelector("#task-list");
+    const projectList = document.querySelector("#projects-list");
+    const taskList = document.querySelector("#tasks-list");
     const addProjectBtn = document.querySelector("#add-project-btn");
     const addTaskBtn = document.querySelector("#add-task-btn");
 
     let activeProjectId = null;
 
     function renderProjects() {
-        projectList.innerHtml ="";
+        projectList.innerHTML ="";
 
-        manager.projects.array.forEach(project => {
-            const project = document.createElement("li");
-            project.textContent = project.name;
+        manager.projects.forEach(p => {
+            const project = document.createElement("div");
+            project.textContent = p.name;
 
             project.addEventListener("click", () => {
-                activeProjectId= project.id;
-                renderTasks(project.id);
+                activeProjectId= p.id;
+                renderTasks(p.id);
             })
             projectList.appendChild(project);
         });
@@ -41,5 +41,10 @@ export default function domController(manager) {
         return activeProjectId;
     }
 
-    return { renderProjects, renderTasks, getActiveProjectId };
+    function setActiveProject(projectId) {
+        activeProjectId = projectId;
+    }
+
+
+    return { renderProjects, renderTasks, getActiveProjectId, setActiveProject };
 }
