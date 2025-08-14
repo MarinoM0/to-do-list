@@ -10,6 +10,7 @@ modalController(manager, dom);
 
 manager.loadFromStorage();
 dom.renderProjects();
+
 if (manager.projects.length > 0) {
     dom.renderTasks(manager.projects[0].id);
 };

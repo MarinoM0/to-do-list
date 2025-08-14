@@ -26,14 +26,36 @@ export default function domController(manager) {
     project.getTasks().forEach(task => {
       const taskCard = document.createElement("div");
       taskCard.classList.add("task-card", task.priority);
+
       const title = document.createElement("p");
       title.classList.add("task-title");
       title.textContent = task.title;
+
       const due = document.createElement("p");
       due.classList.add("task-due");
       due.textContent = task.getFormattedDate();
+
+      const details = document.createElement("div");
+      details.classList.add("task-details");
+      details.style.display = "none";
+
+      const desc = document.createElement("p");
+      desc.textContent = `Description: ${task.description || "No description"}`;
+
+      const prio = document.createElement("p");
+      prio.textContent = `Priority: ${task.priority}`;
+
+      details.appendChild(desc);
+      details.appendChild(prio);
+
       taskCard.appendChild(title);
       taskCard.appendChild(due);
+      taskCard.appendChild(details);
+
+      taskCard.addEventListener("click", () => {
+        details.style.display = details.style.display === "none" ? "block" : "none";
+      });
+
       taskList.appendChild(taskCard);
     });
   }
