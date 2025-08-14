@@ -7,19 +7,28 @@ export default function domController(manager) {
     let activeProjectId = null;
 
     function renderProjects() {
-        projectList.innerHTML ="";
+    projectList.innerHTML = "";
 
-        manager.projects.forEach(p => {
-            const project = document.createElement("div");
-            project.textContent = p.name;
+    manager.projects.forEach(p => {
+        const project = document.createElement("div");
+        project.classList.add("project-item");
+        project.textContent = p.name;
 
-            project.addEventListener("click", () => {
-                activeProjectId= p.id;
-                renderTasks(p.id);
-            })
-            projectList.appendChild(project);
+        // Highlight the active one
+        if (p.id === activeProjectId) {
+            project.classList.add("active");
+        }
+
+        // Make it clickable
+        project.addEventListener("click", () => {
+            activeProjectId = p.id;        // set active
+            renderProjects();              // re-render to update highlight
+            renderTasks(p.id);              // show this project's tasks
         });
-    }
+
+        projectList.appendChild(project);
+    });
+}
 
     function renderTasks(projectId) {
         const project = manager.getProjectById(projectId);
