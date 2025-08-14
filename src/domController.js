@@ -1,59 +1,50 @@
 export default function domController(manager) {
-    const projectList = document.querySelector("#projects-list");
-    const taskList = document.querySelector("#tasks-list");
-    const addProjectBtn = document.querySelector("#add-project-btn");
-    const addTaskBtn = document.querySelector("#add-task-btn");
+  const projectList = document.querySelector("#projects-list");
+  const taskList = document.querySelector("#tasks-list");
+  let activeProjectId = null;
 
-    let activeProjectId = null;
-
-    function renderProjects() {
+  function renderProjects() {
     projectList.innerHTML = "";
-
     manager.projects.forEach(p => {
-        const project = document.createElement("div");
-        project.classList.add("project-item");
-        project.textContent = p.name;
-
-        // Highlight the active one
-        if (p.id === activeProjectId) {
-            project.classList.add("active");
-        }
-
-        // Make it clickable
-        project.addEventListener("click", () => {
-            activeProjectId = p.id;        // set active
-            renderProjects();              // re-render to update highlight
-            renderTasks(p.id);              // show this project's tasks
-        });
-
-        projectList.appendChild(project);
+      const project = document.createElement("div");
+      project.classList.add("project-item");
+      project.textContent = p.name;
+      if (p.id === activeProjectId) project.classList.add("active");
+      project.addEventListener("click", () => {
+        activeProjectId = p.id;
+        renderProjects();
+        renderTasks(p.id);
+      });
+      projectList.appendChild(project);
     });
-}
+  }
 
-    function renderTasks(projectId) {
-        const project = manager.getProjectById(projectId);
+  function renderTasks(projectId) {
+    const project = manager.getProjectById(projectId);
+    taskList.innerHTML = "";
+    if (!project) return;
+    project.getTasks().forEach(task => {
+      const taskCard = document.createElement("div");
+      taskCard.classList.add("task-card", task.priority);
+      const title = document.createElement("p");
+      title.classList.add("task-title");
+      title.textContent = task.title;
+      const due = document.createElement("p");
+      due.classList.add("task-due");
+      due.textContent = task.getFormattedDate();
+      taskCard.appendChild(title);
+      taskCard.appendChild(due);
+      taskList.appendChild(taskCard);
+    });
+  }
 
-        taskList.innerHTML="";
-        project.getTasks().forEach(task => {
-            const taskCard = document.createElement("div");
-            const title = document.createElement("p");
-            title.textContent=task.title;
-            const due = document.createElement("p");
-            due.textContent = task.getFormattedDate();
-            taskCard.appendChild(title);
-            taskCard.appendChild(due);
-            taskList.appendChild(taskCard);
-        })
-    }
+  function getActiveProjectId() {
+    return activeProjectId;
+  }
 
-    function getActiveProjectId() {
-        return activeProjectId;
-    }
+  function setActiveProject(projectId) {
+    activeProjectId = projectId;
+  }
 
-    function setActiveProject(projectId) {
-        activeProjectId = projectId;
-    }
-
-
-    return { renderProjects, renderTasks, getActiveProjectId, setActiveProject };
+  return { renderProjects, renderTasks, getActiveProjectId, setActiveProject };
 }

@@ -6,10 +6,11 @@ export default class Manager {
     this.projects = [];
   }
 
-  // Project management
+
   createProject(name) {
     const project = new Project(name);
     this.projects.push(project);
+    this.saveToStorage();
     return project;
   }
 
@@ -19,9 +20,9 @@ export default class Manager {
 
   removeProject(projectId) {
     this.projects = this.projects.filter(p => p.id !== projectId);
+    this.saveToStorage();
   }
 
-  // Task management
   createTask(title, description ="", dueDate, priority) {
     return new Task(title, description, dueDate, priority);
   }
@@ -30,11 +31,33 @@ export default class Manager {
     const project = this.getProjectById(projectId);
     if (!project) throw new Error(`Project with id ${projectId} not found`);
     project.addTask(task);
+    this.saveToStorage();
   }
 
   removeTaskFromProject(projectId, taskId) {
     const project = this.getProjectById(projectId);
-    if (!project) throw new Error(`Project with id ${projectId} not found`);
+    if (!project) throw new Error(ggg`Project with id ${projectId} not found`);
     project.removeTask(taskId);
+    this.saveToStorage();
+  }
+
+  saveToStorage() {
+    localStorage.setItem("projects", JSON.stringify(this.projects))
+  }
+
+  loadFromStorage() {
+    const data = localStorage.getItem("projects");
+    if (!data) return;
+
+    const parsed = JSON.parse(data);
+
+    this.projects = parsed.map(p => {
+      const project = new Project(p.name,p.id);
+      p.tasks.forEach(t => {
+        const task = new Task(t.title,t.description,t.dueDate,t.priority);
+        project.addTask(task);
+      })
+      return project;
+    })
   }
 }
